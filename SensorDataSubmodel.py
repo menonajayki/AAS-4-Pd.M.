@@ -1,3 +1,5 @@
+import csv
+from io import StringIO
 import datetime
 from pathlib import Path
 import pyecma376_2
@@ -7,10 +9,21 @@ from basyx.aas import model, backend, adapter
 import basyx.aas.backend.couchdb
 
 
-sensor_data_property = model.Property(
+# Converting a matrix to a string
+sensor_data = [1.2, 3.4, 5.6, 7.8, 9.0]
+csv_string = StringIO()
+csv_writer = csv.writer(csv_string)
+csv_writer.writerow(sensor_data)
+csv_string.seek(0)
+sensor_data_value = csv_string.read().strip()
+
+submodel = model.Submodel(
+    id_='https://acplt.org/Simple_Submodel',
+    submodel_element=[
+        model.Property(
             id_short='DataMatrix',
             value_type=model.datatypes.String,
-            value='1, 1, 1, 1, 1, 1',
+            value=sensor_data_value,
             semantic_id=model.ExternalReference(
                 (model.Key(
                     type_=model.KeyTypes.GLOBAL_REFERENCE,
@@ -18,17 +31,15 @@ sensor_data_property = model.Property(
                 ),)
             )
         )
-
-submodel = model.Submodel(
-    id_='https://acplt.org/Simple_Submodel'
-
-
+    ]
 )
+
 ota_aas = model.AssetAdministrationShell(
     id_='https://acplt.org/Simple_AAS',
     asset_information=model.AssetInformation(
         asset_kind=model.AssetKind.INSTANCE,
         global_asset_id='http://acplt.org/Simple_Asset'
+
     ),
     submodel={model.ModelReference.from_referable(submodel)}
 )
@@ -44,7 +55,7 @@ file_store = aasx.DictSupplementaryFileContainer()
 with open(Path(__file__).parent / 'TestFile.pdf', 'rb') as f:
     actual_file_name = file_store.add_file("/aasx/suppl/MyExampleFile.pdf", f, "application/pdf")
 
-submodel.submodel_element.add(sensor_data_property)
+
 submodel.submodel_element.add(
     model.File(id_short="documentationFile",
                content_type="application/pdf",
@@ -85,7 +96,8 @@ with aasx.AASXReader("MyAASXPackage.aasx") as reader:
         print(f"Submodel Elements: {loaded_submodel.submodel_element}")
 
     else:
-        print("AAS or Submodel not found in the object store.")
+        print("AAS or Su"
+              "bmodel not found in the object store.")
 
     # Connect to CouchDB
     couchdb_user = "kiajaymenon"
@@ -101,7 +113,7 @@ with aasx.AASXReader("MyAASXPackage.aasx") as reader:
 
     # Add AAS to CouchDBObjectStore
     couchdb_object_store.add(ota_aas)
-    couchdb_object_store.add(sensor_data_property)
+    couchdb_object_store.add(submodel)
     # Commit changes to CouchDB
     ota_aas.commit()
 
