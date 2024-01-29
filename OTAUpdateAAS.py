@@ -1,7 +1,4 @@
-import json
-from basyx.aas import model, backend, adapter
-from basyx.aas.adapter import json as aas_json
-from pathlib import Path
+from basyx.aas import model
 from basyx.aas.adapter import aasx
 
 class OTAUpdateAAS:
@@ -67,9 +64,6 @@ class OTAUpdateAAS:
         submodel = self.aas.submodel.pop() if self.aas.submodel else None
         if submodel:
             print("\nSubmodel:")
-            print(f"ID: {submodel.id}")
-
-            print(f"Submodel Elements: {submodel.submodel_element}")
 
             # Print values of Property
             property_ = submodel.submodel_element.pop() if submodel.submodel_element else None

@@ -3,7 +3,11 @@ from pathlib import Path
 import pyecma376_2
 from basyx.aas import model
 from basyx.aas.adapter import aasx
+import numpy as np
 
+
+# CODE COMMENTED JUST READ  THE AAS FILE CREATED. UNCOMMENT AS NEEDED!
+"""
 submodel = model.Submodel(
     id_='https://acplt.org/Simple_Submodel'
 )
@@ -43,9 +47,17 @@ with aasx.AASXWriter("MyAASXPackage.aasx") as writer:
     meta_data.created = datetime.datetime.now()
     writer.write_core_properties(meta_data)
     print("Generated AASX file:", Path("MyAASXPackage.aasx").resolve())
+"""
+
 
 new_object_store = model.DictObjectStore()
 new_file_store = aasx.DictSupplementaryFileContainer()
+
+
+
+
+
+#JUST READ THE FILE
 
 with aasx.AASXReader("MyAASXPackage.aasx") as reader:
     # Read all contained AAS objects and all referenced auxiliary files
@@ -65,6 +77,21 @@ with aasx.AASXReader("MyAASXPackage.aasx") as reader:
         print("\nLoaded Submodel:")
         print(f"ID: {loaded_submodel.id}")
         print(f"Submodel Elements: {loaded_submodel.submodel_element}")
+        # Extract and print matrix data
+        data_matrix_str = None
+        for submodel_element in loaded_submodel.submodel_element:
+            if submodel_element.id_short == 'DataMatrix':
+                data_matrix_str = submodel_element.value
+                break
+
+        if data_matrix_str is not None:
+            # Convert data_matrix_str to a NumPy array
+            data_matrix = np.array([float(value) for value in data_matrix_str.split(',')])
+            print("\nVoltage:")
+            print(data_matrix)
+        else:
+            print("DataMatrix not found in the loaded Submodel.")
+
 
     else:
         print("AAS or Submodel not found in the object store.")
