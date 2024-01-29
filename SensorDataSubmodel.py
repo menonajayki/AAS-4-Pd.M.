@@ -1,4 +1,7 @@
 import csv
+import pandas as pd
+import numpy as np
+
 from io import StringIO
 import datetime
 from pathlib import Path
@@ -8,9 +11,17 @@ from basyx.aas.adapter import aasx
 from basyx.aas import model, backend, adapter
 import basyx.aas.backend.couchdb
 
+file_path = 'dataset.csv'
+df = pd.read_csv(file_path)
+
+
+voltage_matrix = df['Voltage(V)'].to_numpy()
+
+# Print the voltage matrix
+print(voltage_matrix)
 
 # Converting a matrix to a string
-sensor_data = [1.2, 3.4, 5.6, 7.8, 9.0]
+sensor_data = voltage_matrix
 csv_string = StringIO()
 csv_writer = csv.writer(csv_string)
 csv_writer.writerow(sensor_data)

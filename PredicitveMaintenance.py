@@ -38,13 +38,13 @@ if data_matrix_str is None:
 data_matrix = np.array([float(value) for value in data_matrix_str.split(',')])
 
 # Step 3: Detect anomalies (values above 5)
-threshold = 5
+threshold = 4
 anomalies = data_matrix[data_matrix > threshold]
 
 # Step 4: Visualize anomalies
 plt.plot(data_matrix, label='Sensor Data')
-plt.scatter(np.where(data_matrix > threshold), anomalies, color='red', label='Anomalies (above 5)')
-plt.axhline(y=threshold, color='orange', linestyle='--', label='Threshold (5)')
+plt.scatter(np.where(data_matrix > threshold), anomalies, color='red', label='Anomalies')
+plt.axhline(y=threshold, color='orange', linestyle='--', label='Threshold (4V)')
 plt.xlabel('Index')
 plt.ylabel('Sensor Data Value')
 plt.legend()
