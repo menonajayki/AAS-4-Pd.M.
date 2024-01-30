@@ -9,11 +9,12 @@ from basyx.aas import model, backend
 import basyx.aas.backend.couchdb
 import numpy as np
 
-#READ SENSOR DATA FROM THE PATH
+# read the sensor data file
 file_path = 'dataset.csv'
 df = pd.read_csv(file_path)
 
-#READ DATA FROM THE FILE
+
+# Read current and voltage
 voltage_matrix = df['Voltage(V)'].to_numpy()
 current_matrix = df['Current(A)'].to_numpy()
 print(voltage_matrix)
@@ -71,7 +72,7 @@ submodelCurrent = model.Submodel(
 )
 
 ota_aas = model.AssetAdministrationShell(
-    id_='https://acplt.org/Simple_AAS',
+    id_='https://acplt.org/Sensor_AAS',
     asset_information=model.AssetInformation(
         asset_kind=model.AssetKind.INSTANCE,
         global_asset_id='http://acplt.org/Simple_Asset'

@@ -17,4 +17,4 @@ for doc_id in db:
     doc = db[doc_id]
     db.delete(doc)
 
-print("All documents deleted successfully.")
+print("\nAll documents deleted successfully.")
