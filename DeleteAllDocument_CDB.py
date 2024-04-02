@@ -1,8 +1,8 @@
 import couchdb
 
 # Connect to CouchDB
-couchdb_user = "kiajaymenon"
-couchdb_password = "ARENA2036"
+couchdb_user = "user-name"
+couchdb_password = "password"
 couchdb_database = "sample_database"
 couchdb_url = f'http://{couchdb_user}:{couchdb_password}@127.0.0.1:5984/'
 
