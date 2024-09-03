@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 from sklearn.ensemble import IsolationForest
 
 # Connect to CouchDB
-couchdb_user = "kiajaymenon"
-couchdb_password = "ARENA2036"
+couchdb_user = "username"
+couchdb_password = "password"
 couchdb_database = "sample_database"
 couchdb_url = f'http://{couchdb_user}:{couchdb_password}@127.0.0.1:5984/'
 encoded_document_id_voltage = "https%3A%2F%2Facplt.org%2FVoltage_Submodel"
